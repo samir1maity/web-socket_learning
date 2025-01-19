@@ -4,7 +4,10 @@ const wss = new WebSocketServer({ port: 8000 });
 
 wss.on("connection", function (socket) {
   console.log("connected");
-  setInterval(() => {
-    socket.send("current market price is ->");
-  }, 500);
+
+  socket.on("message", (e) => {
+    if (e.toString() === "ping") {
+      socket.send("pong");
+    }
+  });
 });
